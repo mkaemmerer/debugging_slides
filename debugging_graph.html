@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			.link line {
+				stroke: #333;
+			}
+
+			text {
+				text-anchor: middle;
+				font-family: sans-serif;
+				font-size: 50%;
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+
+			.sections, .debugging-tools {
+				fill: white;
+			}
+
+			.dividers line {
+				stroke-dasharray: 10,5;
+				stroke: white;
+			}
+
+			.debugging-tools path {
+				fill: royalblue;
+				stroke: royalblue;
+				stroke-width: 80px;
+				stroke-linejoin: round;
+
+				opacity: 0.3;
+			}
+
+			rect {
+				fill: none;
+				pointer-events: all;
+			}
+		</style>
+		<script src="js/d3.js" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<svg width="900" height="480" viewBox="100 100 740 300">
+			<defs>
+				<path id="ant-shape" d="m17.17661,23.93079c-1.02531,0.84146 7.22663,11.28543 7.73575,11.89354c7.04986,8.43579 14.029,8.7257 14.89167,9.98435c0.86974,1.25158 5.02753,5.43765 12.42387,6.66802c0.02828,1.92333 0.13435,3.7406 0.33234,5.46594c-4.5467,-1.25158 -9.66615,-2.32638 -12.52994,-2.31931c-3.01934,-0.00707 -13.24411,2.84964 -15.07552,3.70524c-0.64346,0.30405 -12.32487,0.00707 -12.32487,1.27986c0,1.28694 11.63191,1.7607 12.11274,1.11016c4.22143,0.67175 16.17861,-1.51321 17.4514,-1.28693c1.2728,0.24041 11.06623,3.09005 11.13694,3.10419c0.73539,3.37997 1.80312,5.22553 3.06884,7.48119c-4.8649,-0.1414 -13.59766,4.67398 -18.46963,9.54595c-4.04465,4.04465 -10.78338,10.58539 -11.80162,12.02789c-3.80423,5.37402 -2.10011,22.18195 0.00707,22.18195c1.65463,0 -2.30517,-15.04723 1.49907,-20.42125c1.09602,-1.54856 13.35018,-9.91365 14.77854,-11.55413c1.42835,-1.64049 9.02268,-3.98809 12.20466,-6.36396c-3.20319,2.07182 -5.39523,5.31037 -5.39523,9.76514c0,16.54631 8.63378,23.21432 15.11795,23.29211c0,0 0.00708,0.02121 0.02121,0.02121c0.01415,0 0.02829,0 0.04243,0c0.01414,0 0.02829,0 0.04243,0c0.01414,0 0.02828,0 0.04243,0c6.4771,-0.08485 15.06844,-6.76701 15.06844,-23.28503c0.00707,-4.15071 -1.90919,-7.26905 -4.75177,-9.34795c3.45776,2.21325 10.23892,4.38406 11.58242,5.92556c1.43543,1.63341 13.63303,9.9985 14.73611,11.55413c3.81131,5.36694 -0.14142,20.43539 1.52735,20.43539c2.09304,0 3.80424,-16.81501 0,-22.18901c-1.0253,-1.43544 -7.75697,-7.96909 -11.80162,-12.01375c-4.87904,-4.87905 -13.59766,-9.69444 -18.46964,-9.54595c1.26572,-2.25567 2.32639,-4.1507 3.06886,-7.53776c0.06363,-0.00707 9.85707,-2.81429 11.13692,-3.04763c1.27987,-0.23335 13.22997,1.95868 17.45847,1.27986c0.47376,0.65761 12.11274,0.17678 12.10567,-1.10309c0.00707,-1.27986 -11.70969,-1.00409 -12.35316,-1.30814c-1.82433,-0.86267 -11.9996,-3.71231 -15.02602,-3.71231c-2.86378,0.00707 -8.02566,1.08187 -12.57236,2.31931c0.19799,-1.7112 0.34648,-3.52847 0.37476,-5.4518c7.39634,-1.24451 11.56121,-5.42351 12.41679,-6.67509c0.86975,-1.25158 7.84889,-1.54149 14.89875,-9.99142c0.50204,-0.60104 8.76105,-11.05208 7.72868,-11.88647c-1.20915,-0.98288 -8.7752,8.76105 -9.07926,9.61666c-2.05061,1.01823 -11.79454,7.50947 -12.96834,7.97616c-1.18087,0.45962 -7.12057,2.58094 -13.43503,6.36397c-0.96874,-3.69817 -3.40826,-6.2084 -6.39225,-7.53776c4.12243,-0.00708 7.12057,-0.81318 7.12057,-5.3528c0,-4.9639 -0.9546,-9.53888 -2.55973,-13.20876c4.39114,-2.28396 7.57312,-4.73055 8.52771,-5.07703c0.9546,-0.36063 1.3223,-1.67584 -0.4879,-4.99925c-2.98399,-5.45886 -6.21547,-10.18941 -6.9155,-9.92778c-0.70005,0.27577 2.56679,10.91066 5.36693,13.20169c-3.31633,0.5869 -5.49422,1.6617 -8.25901,3.57796c-2.17789,-3.29512 -4.97803,-5.27502 -8.06808,-5.32452c-0.00708,-0.00707 -0.01415,-0.02828 -0.02122,-0.02121c-0.02828,0 -0.06364,-0.00707 -0.09192,-0.00707c-3.09713,0.04243 -5.95385,2.05061 -8.12466,5.3528c-2.77186,-1.90919 -4.93561,-3.01228 -8.24487,-3.60625c2.80014,-2.27688 6.08819,-12.9047 5.38815,-13.16633c-0.70003,-0.26163 -3.95273,4.43356 -6.93671,9.89243c-1.81727,3.33047 -1.42129,4.67398 -0.46669,5.02046c0.96166,0.35355 4.14364,2.80014 8.53478,5.0841c-1.61221,3.66281 -2.5668,8.25194 -2.5668,13.21583c0,4.52548 2.99813,5.34573 7.11349,5.34573c-2.97692,1.33643 -5.41644,3.84666 -6.38517,7.53068c-6.31447,-3.78302 -12.28245,-5.87606 -13.45625,-6.34275c-1.18087,-0.45961 -10.91773,-7.00035 -12.96834,-8.01859c-0.29699,-0.84853 -7.84889,-10.57832 -9.06511,-9.58837z"/>
+			</defs>
+
+			<rect width="900" height="480"></rect>
+
+			<g class="link">
+				<line class="server strong-link"                         x1="450" y1="133" x2="376" y2="134"></line>
+				<line class="server strong-link"                         x1="449" y1="250" x2="376" y2="134"></line>
+				<line class="server strong-link bug-link bug-1"          x1="302" y1="250" x2="376" y2="134"></line>
+				<line class="server strong-link bug-link bug-2"          x1="302" y1="250" x2="449" y2="250"></line>
+				<line class="server strong-link"                         x1="451" y1="316" x2="449" y2="250"></line>
+				<line class="client-to-server weak-link"                 x1="645" y1="250" x2="450" y2="133"></line>
+				<line class="client-to-server weak-link bug-link bug-2"  x1="449" y1="250" x2="645" y2="250"></line>
+				<line class="client strong-link"                         x1="783" y1="173" x2="645" y2="250"></line>
+				<line class="client weak-link"                           x1="783" y1="340" x2="645" y2="250"></line>
+				<line class="client weak-link"                           x1="783" y1="340" x2="783" y2="173"></line>
+				<line class="db-to-server weak-link bug-link bug-1"      x1="147" y1="250" x2="302" y2="250"></line>
+			</g>
+			
+			<g class="node">
+				<g class="storage" transform="translate(147,250)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">Database</text>
+					<use class="bug bug-1" xlink:href="#ant-shape" fill="#777" transform="scale(0.2)translate(-65,-60)"/>
+				</g>
+
+				<g class="server" transform="translate(302,250)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">Model</text>
+					<use class="bug bug-2" xlink:href="#ant-shape" fill="brown" transform="scale(0.2)translate(-65,-60)"/>
+				</g>
+
+				<g class="server" transform="translate(449,250)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">View</text>
+				</g>
+
+				<g class="server" transform="translate(451,316)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">Helper</text>
+				</g>
+
+				<g class="server" transform="translate(377, 134)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">Controller</text>
+					<use class="bug bug-1" xlink:href="#ant-shape" fill="brown" transform="scale(0.2)translate(-65,-60)"/>
+				</g>
+
+				<g class="server" transform="translate(450, 133)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">Router</text>
+				</g>
+				
+				<g class="client" transform="translate(645,250)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">HTML</text>
+					<use class="bug bug-2" xlink:href="#ant-shape" fill="#777" transform="scale(0.2)translate(-65,-60)"/>
+				</g>
+
+				<g class="client" transform="translate(783,173)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">CSS</text>
+				</g>
+
+				<g class="client" transform="translate(783,340)">
+					<circle r="12"></circle>
+					<text transform="translate(0,28)">JS</text>
+				</g>
+			</g>
+
+			<g class="sections">
+				<g class="dividers">
+					<line x1="225" x2="225" y1="0" y2="900"></line>
+					<line x1="545" x2="545" y1="0" y2="900"></line>
+				</g>
+
+				<text transform="translate(147,420)">Storage</text>
+				<text transform="translate(385,420)">Server</text>
+				<text transform="translate(672,420)">Client</text>
+			</g>
+
+			<g class="debugging-tools">
+				<g class="database-console">
+					<path d="M 146,250 L 146,250 L 145,250 Z "></path>
+					<text transform="translate(147,80)">SQL console</text>
+				</g>
+
+				<g class="rails-console">
+					<path d="M 303,252 L 453,316 L 458,134 L 378,134 Z"></path>
+					<text transform="translate(385,80)">Ruby debugger, Rails console</text>
+				</g>
+					
+				<g class="chrome-tools">
+					<path d="M 645,250 L 645,251 L 784,173 Z"></path>
+					<path d="M 785,343 L 785,343 L 786,342 Z "></path>
+					<text transform="translate(672,80)">Developer tools</text>
+				</g>
+			</g>
+		</svg>
+
+	<script type="text/javascript">
+		var svg = d3.select("svg")
+
+		var setup = function(){
+			svg.selectAll(".sections")
+				.style("opacity", 1e-6)
+			//Hide debugging tools
+			svg.selectAll(".debugging-tools g")
+				.style("opacity", 1e-6)
+			//Hide nodes
+			svg.selectAll(".node g")
+				.style("opacity", 1e-6)
+			//Hide edges
+			svg.selectAll(".link line")
+				.style("opacity", 1e-6)
+			//Hide bugs
+			svg.selectAll(".bug")
+				.style("opacity", 1e-6)
+		}
+
+		var transitions = [
+		//Show sections
+		  revealElement(".sections")
+		//Show graph
+		, revealElement(".storage")
+		, inParallel([revealElement(".server"), revealElement(".db-to-server")])
+		, inParallel([revealElement(".client"), revealElement(".client-to-server")])
+		//Show bugs
+		, showBugPath(1)
+		, inParallel([showBugPath(2), hideBugPath(1)])
+		, hideBugPath(2)
+		//Show debugging regions
+		, inParallel([concealElement(".sections"), revealElement(".debugging-tools .database-console")])
+		, revealElement(".debugging-tools .rails-console")
+		, revealElement(".debugging-tools .chrome-tools")
+		//Show strong and weak links
+		, inParallel([concealElement(".debugging-tools g"), setLinkColors(), concealElement(".node text")])
+		]
+
+		setup()
+
+		var i = 0
+
+		d3.select("body").on("keydown", function(){
+			if(d3.event.keyCode == 39){
+				transitionForward()
+			}
+			if(d3.event.keyCode == 37){
+				transitionBackward()
+			}
+		})
+		function transitionForward(){
+			if(transitions[i]){
+				transitions[i].forward()
+				i++
+			}
+		}
+		function transitionBackward(){
+			i--
+			if(transitions[i]){
+				transitions[i].backward()
+			}
+		}
+
+		//Transitions
+		function revealElement(selector){
+			return transitionOpacity(selector, 1e-6, 1)
+		}
+		function concealElement(selector){
+			return transitionOpacity(selector, 1, 1e-6)
+		}
+		function inParallel(transitions){
+			return {
+				forward: function(){
+					transitions.forEach(function(transition){
+						transition.forward()
+					})
+				}
+			, backward: function(){
+					transitions.forEach(function(transition){
+						transition.backward()
+					})
+				}
+			}
+		}
+
+		function transitionAttribute(selector, attr, from, to){
+			return {
+				forward: function(){
+					svg.selectAll(selector)
+						.transition()
+						.duration(1000)
+						.style(attr, to)
+				}
+			, backward: function(){
+					svg.selectAll(selector)
+						.transition()
+						.duration(1000)
+						.style(attr, from)
+				}
+			}
+		}
+
+		function transitionStroke(selector, from, to){
+			return transitionAttribute(selector, "stroke", from, to)
+		}
+		function transitionFill(selector, from, to){
+			return transitionAttribute(selector, "fill", from, to)
+		}
+		function transitionOpacity(selector, from, to){
+			return transitionAttribute(selector, "opacity", from, to)
+		}
+
+		function reverseTransition(transition){
+			return {
+				forward: transition.backward
+			, backward: transition.forward
+			}
+		}
+
+		//Specific transitions
+		function setLinkColors(){
+			var colorWeakLinks   = transitionStroke(".weak-link", "#333", "brown")
+			  , colorStrongLinks = transitionStroke(".strong-link", "#333", "royalblue")
+			  , colorNodes       = transitionFill(".node circle", "black", "royalblue")
+
+			return inParallel([colorWeakLinks, colorStrongLinks, colorNodes])
+		}
+
+		function showBugPath(index){
+			var path = transitionStroke(".bug-link" + ".bug-" + index, "#333", "#a52a2a")
+			  , bug  = revealElement(".bug" + ".bug-" + index)
+			return inParallel([path, bug])
+		}
+
+		function hideBugPath(index){
+			return reverseTransition(showBugPath(index))
+		}
+	</script>
+
+	</body>
+</html>

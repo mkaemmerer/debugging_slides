@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Debugging</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style type="text/css">
+			.reveal li {
+				margin-bottom: 1em;
+			}
+		</style>
+	</head>
+
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<!-- Title -->
+				<section>
+					<section>
+						<h1>Debugging</h1>
+						<h3>Part I: making debuggable programs</h3>
+					</section>
+
+					<section>
+						<iframe src="good_code.html" width="960" height="500"></iframe>
+					</section>
+				</section>
+
+				<!-- Graph -->
+				<section>
+					<section>
+						<h3>A Map of Rails</h3>
+						<iframe src="debugging_graph.html" width="960" height="500"></iframe>
+
+						<aside class="notes">
+							# Map of rails land
+							# Trace symptom to its root
+							# Use debugging tools
+							# Weak links lead to uncertainty
+						</aside>
+					</section>
+				</section>
+
+				<!-- Demo 1: Breadcrumb Trail -->
+				<section>
+					<h1>DEMO</h1>
+					<h3>Following the breadcrumb trail</h3>
+
+					<aside class="notes">
+						# Follow trail of breadcrumbs from a symptom in HTML to its root in a View
+						# Very common problem, happens over and over and over
+					</aside>
+				</section>
+
+				<!-- The Problem -->
+				<section>
+					<section>
+						<iframe src="good_code.html" width="960" height="500"></iframe>
+						<aside class="notes">
+							# Good code is easy to debug == Hard to debug code is bad code
+							# Best practices make code harder to debug. This teaches us bad habits
+							# There is a problem with Rails views
+						</aside>
+					</section>
+
+					<section>
+						<h3>Debugging is teaching us bad habits</h3>
+						<ul>
+							<li>Don't use translations</li>
+							<li>Don't use helper methods</li>
+							<li>Never repeat id names or class names</li>
+						</ul>
+						<br><br>
+					</section>
+
+					<section data-state="alert">
+						<h1>Sorry Rails, it's you not me</h1>
+					</section>
+				</section>
+
+				<!-- Demo 2: Link to Source -->
+				<section>
+					<h1>DEMO</h1>
+					<h3>Jump straight to the source</h3>
+					<aside class="notes">
+						# Use debug branch. Jump to view source from element
+					</aside>
+				</section>
+
+				<!-- Reifying the Relation -->
+				<section>
+					<section>
+						<h2>Reify the relation</h2>
+
+						<p class="fragment">A &rarr; B</p>
+						<p class="fragment">B &rarr; A</p>
+						<p class="fragment">A &larr; C &rarr; B</p>
+
+						<aside class="notes">
+							# Relation between view and html is lost during rendering
+							# Find when both view code and html output are in scope at the same time
+							# Record the relation (either a to b, b to a, or c to (b,a))
+						</aside>
+					</section>
+
+					<section>
+						<h2>Record the relation</h2>
+						<pre><code>module ActionView
+  class Template    
+    alias_method_chain :render_template, :tagging
+
+    def render_template_with_tagging(view, local_assigns={})
+      captured = render_template_without_tagging(view, local_assigns)
+      tag_fragment(captured, "data-debug-source-erb", @template_path)
+    end
+    def tag_fragment(fragment, attribute, value)
+      fragment = Nokogiri::HTML.fragment(fragment)
+      fragment.children.each do |child|
+        child[attribute] = value
+      end
+      fragment.to_html
+    end
+  end
+end</code></pre>
+
+						<aside class="notes">
+							# Case study -- monkey patching Rails render
+						</aside>
+					</section>
+				</section>
+				
+				<!-- Takeaways -->
+				<section>
+					<h2>Takeaways</h2>
+					<ol>
+						<li>Understanding the relationships between components is <em>crucial</em> to debugging.</li>
+						<li>We are all toolmakers. When you encounter a common problem, write a tool.</li>
+					</ol>
+
+					<aside class="notes">
+						# Not about the specific tool or case study -- about general ways to approach debugging
+						# Tools can be shoddy and still be useful
+
+						# Understanding relations between components is crucial to debugging
+						# Write tools to simplify common problems
+					</aside>
+				</section>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
